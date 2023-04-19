@@ -97,7 +97,7 @@ class SinglyLinkedList {
     findMid() {
         // Returns the middle node
         // Implement this as a singly linked list then as a doubly linked list
-            // How do the implementation for singly and doubly vary if at all?
+        // How do the implementation for singly and doubly vary if at all?
 
         // Your code here
         let curr = this.head;
@@ -118,7 +118,7 @@ class SinglyLinkedList {
         // Returns a new reversed version of the linked list
         // Try implementing it by returning a new linked list then returning
         // the original linked list reversed in place
-            // Does the time complexity change? How about space complexity?
+        // Does the time complexity change? How about space complexity?
 
         // Your code here
         let newList = new SinglyLinkedList();
@@ -168,6 +168,7 @@ class DoublyLinkedList {
     constructor(head = null) {
         this.head = head;
         this.tail = head;
+        this.length = 0;
     }
 
     addToTail(val) {
@@ -176,20 +177,21 @@ class DoublyLinkedList {
         if (!this.head) {
             this.head = newNode;
             this.tail = newNode;
+            this.length++;
             return this.head;
         }
 
         this.tail.next = newNode;
         newNode.prev = this.tail;
         this.tail = newNode;
-
+        this.length++;
         return this.head;
     }
 
     findMid() {
         // Returns the middle node
         // Implement this as a singly linked list then as a doubly linked list
-            // How do the implementation for singly and doubly vary if at all?
+        // How do the implementation for singly and doubly vary if at all?
 
         // Your code here
         let first = this.head;
@@ -208,8 +210,13 @@ class DoublyLinkedList {
         // Returns a new reversed version of the linked list
 
         // Your code here
-
-
+        let newList = new DoublyLinkedList();
+        let curr = this.tail;
+        while (curr) {
+            newList.addToTail(curr.value);
+            curr = curr.prev;
+        }
+        return newList;
         // Write your hypothesis on the time complexity of this method here
     }
 
@@ -217,7 +224,21 @@ class DoublyLinkedList {
         // Reverses the linked list in-place
 
         // Your code here
-
+        if (this.length <= 1) {
+            return this;
+        }
+        let prevNode = null;
+        let currNode = this.head;
+        while (currNode) {
+            let nextNode = currNode.next;
+            currNode.next = prevNode;
+            currNode.prev = nextNode;
+            prevNode = currNode;
+            currNode = nextNode;
+        }
+        this.tail = this.head;
+        this.head = prevNode;
+        return this;
         // Write your hypothesis on the time complexity of this method here
     }
 
