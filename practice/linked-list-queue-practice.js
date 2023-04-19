@@ -10,6 +10,7 @@ class SinglyLinkedNode {
 class SinglyLinkedList {
     constructor(head = null) {
         this.head = head;
+        this.length = 0;
     }
 
     addToTail(val) {
@@ -17,6 +18,7 @@ class SinglyLinkedList {
 
         if (!this.head) {
             this.head = newNode;
+            this.length++;
             return this.head;
         }
 
@@ -26,6 +28,7 @@ class SinglyLinkedList {
         }
 
         curr.next = newNode;
+        this.length++;
         return this.head;
     }
 
@@ -34,12 +37,32 @@ class SinglyLinkedList {
         // Implement in O(n) and in O(1) time complexity
 
         // Your code here
+        //return this.length;
+        let count = 0;
+        let curr = this.head;
+        while (curr) {
+            count++;
+            curr = curr.next;
+        }
+        return count;
     }
 
     sumOfNodes() {
         // Returns the sum of the values of all the nodes
 
         // Your code here
+        let sum = 0;
+        if (this.length === 0) {
+            return 0;
+        } else {
+            let curr = this.head;
+            while (curr) {
+                sum += curr.value;
+                curr = curr.next;
+            }
+            return sum;
+        }
+
 
         // Write your hypothesis on the time complexity of this method here
     }
@@ -48,6 +71,8 @@ class SinglyLinkedList {
         // Returns the average value of all the nodes
 
         // Your code here
+        let sum = this.sumOfNodes();
+        return sum / this.listLength();
 
         // Write your hypothesis on the time complexity of this method here
     }
@@ -56,6 +81,15 @@ class SinglyLinkedList {
         // Returns the node at the nth index from the head
 
         // Your code here
+        if (n < 0) {
+            return null;
+        }
+        let curr = this.head;
+        for (let i = 0; i < n; i++) {
+            curr = curr.next;
+        }
+        return curr;
+
 
         // Write your hypothesis on the time complexity of this method here
     }
@@ -66,10 +100,19 @@ class SinglyLinkedList {
             // How do the implementation for singly and doubly vary if at all?
 
         // Your code here
-
+        let curr = this.head;
+        let n = Math.floor((this.listLength() - 1) / 2);
+        return this.findNthNode(n);
         // Write your hypothesis on the time complexity of this method here
     }
 
+    addToHead(val) {
+        let newNode = new SinglyLinkedNode(val);
+        newNode.next = this.head;
+        this.head = newNode;
+        this.length++;
+        return this;
+    }
 
     reverse() {
         // Returns a new reversed version of the linked list
@@ -78,6 +121,13 @@ class SinglyLinkedList {
             // Does the time complexity change? How about space complexity?
 
         // Your code here
+        let newList = new SinglyLinkedList();
+        let curr = this.head;
+        while (curr) {
+            newList.addToHead(curr.value);
+            curr = curr.next;
+        }
+        return newList;
 
         // Write your hypothesis on the time complexity of this method here
     }
@@ -86,6 +136,20 @@ class SinglyLinkedList {
         // Reverses the linked list in-place
 
         // Your code here
+        if (this.length <= 1) {
+            return this;
+        }
+        let prev = null;
+        let curr = this.head;
+        while (curr) {
+            let next = curr.next;
+            curr.next = prev;
+            prev = curr;
+            curr = next;
+        }
+        this.head = prev;
+        return this;
+
 
         // Write your hypothesis on the time complexity of this method here
     }
@@ -128,7 +192,15 @@ class DoublyLinkedList {
             // How do the implementation for singly and doubly vary if at all?
 
         // Your code here
-        
+        let first = this.head;
+        let last = this.tail;
+        while (first !== last && first.next !== last) {
+            first = first.next;
+            last = last.prev;
+        }
+        return first;
+
+
         // Write your hypothesis on the time complexity of this method here
     }
 
@@ -136,6 +208,7 @@ class DoublyLinkedList {
         // Returns a new reversed version of the linked list
 
         // Your code here
+
 
         // Write your hypothesis on the time complexity of this method here
     }
